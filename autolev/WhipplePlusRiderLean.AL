@@ -44,7 +44,7 @@ BODIES C,D,E,F,G
 % NF: FRONT CONTACT POINT ON GROUND
 % FN: FRONT CONTACT POINT ON WHEEL
 
-POINTS ND,DN,NF,GF
+POINTS ND,DN,NF,FN
 
 %---------------------------------------------------------------------%
 %         CONSTANTS AND VARIABLES
@@ -97,13 +97,13 @@ SPECIFIED T_PHI,T_DELTA,T_THETAR
 % IBRZZ
 % IBRXZ
 % M_BR
-% X_BR
-% Y_BR
+% XBR
+% ZBR
 
 SPECIFIED T_PHI_R
 CONSTANTS HH
 CONSTANTS IBRXX,IBRYY,IBRZZ,IBRXZ
-CONSTANTS M_BR,X_BR,Y_BR
+CONSTANTS M_BR,XBR,ZBR
 
 % CONVERT THE BENCHMARK CONSTANTS TO MOORE'S CONSTANTS
 % RF: RADIUS OF FRONT WHEEL
@@ -164,7 +164,7 @@ MC    =  M_B
 MD    =  M_R
 ME    =  M_H
 MF    =  M_F
-MG    =  M_G
+MG    =  M_BR
 T4    =  T_PHI
 T6    =  T_THETAR
 T7    =  T_DELTA
@@ -482,7 +482,7 @@ INPUT RF=0.35 M,M_F=3 KG,IFXX=0.1405 KG*M^2,IFYY=0.28 KG*M^2
 ENCODE A,B,M,C1,K0,K2%,EIGVAL,EIGVEC
 
 CODE ALGEBRAIC() BRR_07.M
-          
+
 %---------------------------------------------------------------------%
 %         SAVE OUTPUT
 %---------------------------------------------------------------------%
