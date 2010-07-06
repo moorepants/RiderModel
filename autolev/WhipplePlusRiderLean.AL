@@ -120,40 +120,51 @@ CONSTANTS M_BR,X_BR,Y_BR
 %     CENTER OF MASS OF THE FORK
 % L4: THE DISTANCE IN THE F3> DIRECTION FROM THE STEER POINT TO THE
 %     CENTER OF MASS OF THE FORK
+% L5: UPPER BODY CG LOCATION
+% L6: UPPER BODY CG LOCATION
 
 D1    =  COS(LAMBDA)*(C+W-RR*TAN(LAMBDA))
 D3    = -COS(LAMBDA)*(C-RF*TAN(LAMBDA))
-IC11  =  IRxx
-IC22  =  IRyy
-IC33  =  IRxx
-ID11  =  IBxx
-ID12  =  0.0
-ID22  =  IByy
-ID23  =  0.0
-ID31  =  IBxz
-ID33  =  IBzz
+ID11  =  IRxx
+ID22  =  IRyy
+ID33  =  IRxx
+IC11  =  IBxx
+IC12  =  0.0
+IC22  =  IByy
+IC23  =  0.0
+IC31  =  IBxz
+IC33  =  IBzz
 
 % ROTATE FORK INERTIA MATRIX THROUGH LAMBDA
 IH    =  [IHXX,0,IHXZ;0,IHYY,0;IHXZ,0,IHZZ]
 CF    =  [COS(LAMBDA),0,-SIN(LAMBDA);0,1,0;SIN(LAMBDA),0,COS(LAMBDA)]
 IHROT =  CF*IH*TRANSPOSE(CF)
-IF11  =  IHROT[1,1]
-IF12  =  IHROT[1,2]
-IF22  =  IHROT[2,2]
-IF23  =  IHROT[2,3]
-IF31  =  IHROT[3,1]
-IF33  =  IHROT[3,3]
-IG11  =  IFxx
-IG22  =  IFyy
-IG33  =  IFxx
+IE11  =  IHROT[1,1]
+IE12  =  IHROT[1,2]
+IE22  =  IHROT[2,2]
+IE23  =  IHROT[2,3]
+IE31  =  IHROT[3,1]
+IE33  =  IHROT[3,3]
+IF11  =  IFxx
+IF22  =  IFyy
+IF33  =  IFxx
+IG11  =  IBRxx
+IG12  =  0.0
+IG22  =  IBRyy
+IG23  =  0.0
+IG31  =  IBRxz
+IG33  =  IBRzz
 L1    =  XB
 L2    =  RR + ZB
 L3    =  COS(LAMBDA)*XH-SIN(LAMBDA)*ZH-C*COS(LAMBDA)-W*COS(LAMBDA)
 L4    =  RR*COS(LAMBDA)+XH*SIN(LAMBDA)+ZH*COS(LAMBDA)
-MD    =  M_R
+L5    =  XBR
+L6    =  RR + ZBR
 MC    =  M_B
+MD    =  M_R
 ME    =  M_H
 MF    =  M_F
+MG    =  M_G
 T4    =  T_PHI
 T6    =  T_THETAR
 T7    =  T_DELTA
@@ -231,7 +242,7 @@ SIMPROT(C,G,COS(LAMBDA)*C1>+COS(LAMBDA)*C2>,Q9)
 
 P_NO_DO>=Q1*N1>+Q2*N2>-RR*B3> % NEWTONIAN ORIGIN TO REAR WHEEL CENTER
 
-P_DO_CO>=L1*C1>+L2*C3> % REAR WHEEL CENTER TO BICYCLE FRAME CENTER
+P_DO_CO>=L1*G1>+L2*G3> % REAR WHEEL CENTER TO BICYCLE FRAME CENTER
 
 P_DO_EO>=D1*C1>+L3*E1>+L4*E3> % REAR WHEEL CENTER TO FORK/HANDLEBAR CENTER
 
@@ -242,7 +253,7 @@ P_DO_FO>=D1*C1>+(RR+D1*SIN(LAMBDA)-RF+D3*SIN(LAMBDA))/COS(LAMBDA)*E3>&
 
 % REAR WHEEL CENTER TO THE UPPER BODY CENTER
 
-P_DO_GO>=L5*G1>+L6*G2>
+P_DO_GO>=L5*G1>+L6*G3>
 
 % LOCATE THE GROUND CONTACT POINTS
 
@@ -286,18 +297,19 @@ ANGVEL(N,G)
 
 V_CO_N>=DT(P_NO_CO>,N)
 V_DO_N>=DT(P_NO_DO>,N)
+V_EO_N>=DT(P_NO_EO>,N)
 V_FO_N>=DT(P_NO_FO>,N)
 V_GO_N>=DT(P_NO_GO>,N)
 
-V2PTS(N,C,CO,CN)
-V2PTS(N,G,GO,GN)
+V2PTS(N,D,DO,DN)
+V2PTS(N,F,FO,FN)
 
 %---------------------------------------------------------------------%
 %         DEFINE THE PITCH CONFIGURATION CONSTRAINT
 %---------------------------------------------------------------------%
 
-% SET THE N3> COMPONENT OF P_NC_NG> EQUAL TO ZERO
-PZERO=DOT(P_NC_NG>,N3>)
+% SET THE N3> COMPONENT OF P_ND_NF> EQUAL TO ZERO
+PZERO=DOT(P_ND_NF>,N3>)
 
 %---------------------------------------------------------------------%
 %         MOTION CONSTRAINTS
@@ -307,17 +319,17 @@ PZERO=DOT(P_NC_NG>,N3>)
 % VELOCITIES OF THE FRONT AND REAR WHEEL CONTACT POINTS, CN AND GN,
 % CANNOT HAVE COMPONENTS OF VELOCITY IN THE GROUND PLANE
 
-DEPENDENT[1]=DOT(V_CN_N>,N1>)
-DEPENDENT[2]=DOT(V_CN_N>,N2>)
-DEPENDENT[3]=DOT(V_GN_N>,N1>)
-DEPENDENT[4]=DOT(V_GN_N>,N2>)
+DEPENDENT[1]=DOT(V_DN_N>,N1>)
+DEPENDENT[2]=DOT(V_DN_N>,N2>)
+DEPENDENT[3]=DOT(V_FN_N>,N1>)
+DEPENDENT[4]=DOT(V_FN_N>,N2>)
 DEPENDENT[5]=DT(PZERO)
 
-% THE REAR WHEEL ANGULAR SPEED, U5, THE ROLL RATE, U4, AND THE
-% STEERING RATE, U7, ARE TAKEN TO BE THE INDEPENDENT
+% THE REAR WHEEL ANGULAR SPEED, U6, THE ROLL RATE, U4,THE
+% STEERING RATE, U7, AND THE RIDER LEAN RATE, U9 ARE TAKEN TO BE THE INDEPENDENT
 % GENERALIZED SPEEDS
 
-CONSTRAIN(DEPENDENT[U1,U2,U3,U6,U8])
+CONSTRAIN(DEPENDENT[U1,U2,U3,U5,U8])
 
 %---------------------------------------------------------------------%
 %         ANGULAR ACCELERATIONS
@@ -326,6 +338,8 @@ CONSTRAIN(DEPENDENT[U1,U2,U3,U6,U8])
 ALF_C_N>=DT(W_C_N>,N)
 
 ALF_D_N>=DT(W_D_N>,N)
+
+ALF_E_N>=DT(W_E_N>,N)
 
 ALF_F_N>=DT(W_F_N>,N)
 
@@ -336,8 +350,9 @@ ALF_G_N>=DT(W_G_N>,N)
 %---------------------------------------------------------------------%
 
 A_CO_N>=DT(V_CO_N>,N)
-A_DO_N>=DT(V_DO_N>,N)  
-A_FO_N>=DT(V_FO_N>,N)  
+A_DO_N>=DT(V_DO_N>,N)
+A_EO_N>=DT(V_EO_N>,N)
+A_FO_N>=DT(V_FO_N>,N)
 A_GO_N>=DT(V_GO_N>,N)
 
 %---------------------------------------------------------------------%
@@ -345,16 +360,19 @@ A_GO_N>=DT(V_GO_N>,N)
 %---------------------------------------------------------------------%
 
 GRAVITY(G*N3>,C,D,F,G)
-TORQUE(A/B,T4*A1>) % LEAN TORQUE
-TORQUE(D/C,T5*D2>) % REAR WHEEL TORQUE
-TORQUE(D/F,T7*F3>) % STEER TORQUE
+TORQUE(A/B,T4*A1>) % ROLL TORQUE
+TORQUE(C/D,T6*C2>) % REAR WHEEL TORQUE
+TORQUE(C/E,T7*C3>) % STEER TORQUE
+TORQUE(C/G,T9*G1>) % RIDER LEAN TORQUE
 
 %---------------------------------------------------------------------%
 %         EQUATIONS OF MOTION
 %---------------------------------------------------------------------%
 
 ZERO=FR()+FRSTAR()
-SOLVE(ZERO,U4',U5',U7')
+SOLVE(ZERO,U4',U6',U7',U9')
+
+STOP
 
 %---------------------------------------------------------------------%
 %         LINEARIZATION
