@@ -36,7 +36,7 @@ FRAMES A,B
 % F: FRONT WHEEL
 % G: RIDER UPPER BODY
 
-BODIES C,D,E,F,G
+BODIES C,D,E,F%,G
 
 % DECLARE FOUR POINTS
 % ND: REAR CONTACT POINT ON GROUND
@@ -192,24 +192,26 @@ T9    =  T_PHI_R
 % Q8:  FRONT WHEEL ROTATION ANGLE
 % Q9:  RIDER LEAN ANGLE
 
-VARIABLES Q{9}'
+%VARIABLES Q{9}'
+VARIABLES Q{8}'
 
 %---------------------------------------------------------------------%
 %         GENERALIZED SPEEDS
 %---------------------------------------------------------------------%
 
-MOTIONVARIABLES' U{9}'
+%MOTIONVARIABLES' U{9}'
+MOTIONVARIABLES' U{8}'
 
 %---------------------------------------------------------------------%
 %         MASS AND INERTIA PROPERTIES
 %---------------------------------------------------------------------%
 
-MASS C=MC,D=MD,E=ME,F=MF,G=MG
+MASS C=MC,D=MD,E=ME,F=MF%,G=MG
 INERTIA C,IC11,IC22,IC33,IC12,IC23,IC31
 INERTIA D,ID11,ID22,ID33
 INERTIA E,IE11,IE22,IE33,IE12,IE23,IE31
 INERTIA F,IF11,IF22,IF33
-INERTIA G,IG11,IG22,IG33,IG12,IG23,IG31
+%INERTIA G,IG11,IG22,IG33,IG12,IG23,IG31
 
 %---------------------------------------------------------------------%
 %         ANGULAR RELATIONSHIPS                                       %
@@ -241,7 +243,7 @@ SIMPROT(E,F,2,Q8)
 
 % RIDER LEAN
 
-SIMPROT(C,G,COS(LAMBDA)*C1>+SIN(LAMBDA)*C3>,Q9)
+%SIMPROT(C,G,COS(LAMBDA)*C1>+SIN(LAMBDA)*C3>,Q9)
 
 %---------------------------------------------------------------------%
 %         POSITION VECTORS
@@ -262,7 +264,7 @@ P_DO_FO>=D1*C1>+(RR+D1*SIN(LAMBDA)-RF+D3*SIN(LAMBDA))/COS(LAMBDA)*E3>&
 
 % REAR WHEEL CENTER TO THE UPPER BODY CENTER
 
-P_DO_GO>=(RR+HH)*(-SIN(LAMBDA)*C1>+COS(LAMBDA)*C3>)+L5*G1>+L6*G3>
+%P_DO_GO>=(RR+HH)*(-SIN(LAMBDA)*C1>+COS(LAMBDA)*C3>)+L5*G1>+L6*G3>
 
 % LOCATE THE GROUND CONTACT POINTS
 
@@ -286,7 +288,7 @@ Q5'=U5
 Q6'=U6
 Q7'=U7
 Q8'=U8
-Q9'=U9
+%Q9'=U9
 
 %---------------------------------------------------------------------%
 %         ANGULAR VELOCITIES
@@ -298,7 +300,7 @@ ANGVEL(N,C)
 ANGVEL(N,D)
 ANGVEL(N,E)
 ANGVEL(N,F)
-ANGVEL(N,G)
+%ANGVEL(N,G)
 
 %---------------------------------------------------------------------%
 %         VELOCITIES
@@ -308,7 +310,7 @@ V_CO_N>=DT(P_NO_CO>,N)
 V_DO_N>=DT(P_NO_DO>,N)
 V_EO_N>=DT(P_NO_EO>,N)
 V_FO_N>=DT(P_NO_FO>,N)
-V_GO_N>=DT(P_NO_GO>,N)
+%V_GO_N>=DT(P_NO_GO>,N)
 
 V2PTS(N,D,DO,DN)
 V2PTS(N,F,FO,FN)
@@ -352,7 +354,7 @@ ALF_E_N>=DT(W_E_N>,N)
 
 ALF_F_N>=DT(W_F_N>,N)
 
-ALF_G_N>=DT(W_G_N>,N)
+%ALF_G_N>=DT(W_G_N>,N)
 
 %---------------------------------------------------------------------%
 %         ACCELERATIONS
@@ -362,30 +364,32 @@ A_CO_N>=DT(V_CO_N>,N)
 A_DO_N>=DT(V_DO_N>,N)
 A_EO_N>=DT(V_EO_N>,N)
 A_FO_N>=DT(V_FO_N>,N)
-A_GO_N>=DT(V_GO_N>,N)
+%A_GO_N>=DT(V_GO_N>,N)
 
 %---------------------------------------------------------------------%
 %         FORCES AND TORQUES
 %---------------------------------------------------------------------%
 
-GRAVITY(G*N3>,C,D,F,G)
+GRAVITY(G*N3>,C,D,E,F)%,G)
 TORQUE(A/B,T4*A1>) % ROLL TORQUE
 TORQUE(C/D,T6*C2>) % REAR WHEEL TORQUE
 TORQUE(C/E,T7*C3>) % STEER TORQUE
-TORQUE(C/G,T9*G1>) % RIDER LEAN TORQUE
+%TORQUE(C/G,T9*G1>) % RIDER LEAN TORQUE
 
 %---------------------------------------------------------------------%
 %         EQUATIONS OF MOTION
 %---------------------------------------------------------------------%
 
 ZERO=FR()+FRSTAR()
-SOLVE(ZERO,U4',U6',U7',U9')
+SOLVE(ZERO,U4',U6',U7')%,U9')
 
 %---------------------------------------------------------------------%
 %         LINEARIZATION
 %---------------------------------------------------------------------%
 % LINEARIZES THE EQUATIONS OF MOTION ABOUT THE UPRIGHT CONFIGURATION
 % AND CONSTANT FORWARD SPEED
+
+CONSTANTS U9,Q9
 
 A[1,1]=EVALUATE(D(Q4',Q4),Q1=0,Q2=0,Q3=0,Q4=0,Q5=0,Q6=0,Q7=0,Q8=0,Q9=0,&
        U4=0,U6=-V/RR,U7=0,U9=0,T4=0,T6=0,T7=0,T9=0)
@@ -447,35 +451,35 @@ A[2,6]=EVALUATE(D(Q7',U9),Q1=0,Q2=0,Q3=0,Q4=0,Q5=0,Q6=0,Q7=0,Q8=0,Q9=0,&
 
 PAUSE
 
-A[3,1]=EVALUATE(D(Q9',Q4),Q1=0,Q2=0,Q3=0,Q4=0,Q5=0,Q6=0,Q7=0,Q8=0,Q9=0,&
-       U4=0,U6=-V/RR,U7=0,U9=0,T4=0,T6=0,T7=0,T9=0)
-
-PAUSE
-
-A[3,2]=EVALUATE(D(Q9',Q7),Q1=0,Q2=0,Q3=0,Q4=0,Q5=0,Q6=0,Q7=0,Q8=0,Q9=0,&
-       U4=0,U6=-V/RR,U7=0,U9=0,T4=0,T6=0,T7=0,T9=0)
-
-PAUSE
-
-A[3,3]=EVALUATE(D(Q9',Q9),Q1=0,Q2=0,Q3=0,Q4=0,Q5=0,Q6=0,Q7=0,Q8=0,Q9=0,&
-       U4=0,U6=-V/RR,U7=0,U9=0,T4=0,T6=0,T7=0,T9=0)
-
-PAUSE
-
-A[3,4]=EVALUATE(D(Q9',U4),Q1=0,Q2=0,Q3=0,Q4=0,Q5=0,Q6=0,Q7=0,Q8=0,Q9=0,&
-       U4=0,U6=-V/RR,U7=0,U9=0,T4=0,T6=0,T7=0,T9=0)
-
-PAUSE
-
-A[3,5]=EVALUATE(D(Q9',U7),Q1=0,Q2=0,Q3=0,Q4=0,Q5=0,Q6=0,Q7=0,Q8=0,Q9=0,&
-       U4=0,U6=-V/RR,U7=0,U9=0,T4=0,T6=0,T7=0,T9=0)
-
-PAUSE
-
-A[3,6]=EVALUATE(D(Q9',U9),Q1=0,Q2=0,Q3=0,Q4=0,Q5=0,Q6=0,Q7=0,Q8=0,Q9=0,&
-       U4=0,U6=-V/RR,U7=0,U9=0,T4=0,T6=0,T7=0,T9=0)
-
-PAUSE
+%A[3,1]=EVALUATE(D(Q9',Q4),Q1=0,Q2=0,Q3=0,Q4=0,Q5=0,Q6=0,Q7=0,Q8=0,Q9=0,&
+       %U4=0,U6=-V/RR,U7=0,U9=0,T4=0,T6=0,T7=0,T9=0)
+%
+%PAUSE
+%
+%A[3,2]=EVALUATE(D(Q9',Q7),Q1=0,Q2=0,Q3=0,Q4=0,Q5=0,Q6=0,Q7=0,Q8=0,Q9=0,&
+       %U4=0,U6=-V/RR,U7=0,U9=0,T4=0,T6=0,T7=0,T9=0)
+%
+%PAUSE
+%
+%A[3,3]=EVALUATE(D(Q9',Q9),Q1=0,Q2=0,Q3=0,Q4=0,Q5=0,Q6=0,Q7=0,Q8=0,Q9=0,&
+       %U4=0,U6=-V/RR,U7=0,U9=0,T4=0,T6=0,T7=0,T9=0)
+%
+%PAUSE
+%
+%A[3,4]=EVALUATE(D(Q9',U4),Q1=0,Q2=0,Q3=0,Q4=0,Q5=0,Q6=0,Q7=0,Q8=0,Q9=0,&
+       %U4=0,U6=-V/RR,U7=0,U9=0,T4=0,T6=0,T7=0,T9=0)
+%
+%PAUSE
+%
+%A[3,5]=EVALUATE(D(Q9',U7),Q1=0,Q2=0,Q3=0,Q4=0,Q5=0,Q6=0,Q7=0,Q8=0,Q9=0,&
+       %U4=0,U6=-V/RR,U7=0,U9=0,T4=0,T6=0,T7=0,T9=0)
+%
+%PAUSE
+%
+%A[3,6]=EVALUATE(D(Q9',U9),Q1=0,Q2=0,Q3=0,Q4=0,Q5=0,Q6=0,Q7=0,Q8=0,Q9=0,&
+       %U4=0,U6=-V/RR,U7=0,U9=0,T4=0,T6=0,T7=0,T9=0)
+%
+%PAUSE
 
 A[4,1]=EVALUATE(D(U4',Q4),Q1=0,Q2=0,Q3=0,Q4=0,Q5=0,Q6=0,Q7=0,Q8=0,Q9=0,&
        U4=0,U6=-V/RR,U7=0,U9=0,T4=0,T6=0,T7=0,T9=0)
@@ -537,34 +541,34 @@ A[5,6]=EVALUATE(D(U7',U9),Q1=0,Q2=0,Q3=0,Q4=0,Q5=0,Q6=0,Q7=0,Q8=0,Q9=0,&
 
 PAUSE
 
-A[6,1]=EVALUATE(D(U9',Q4),Q1=0,Q2=0,Q3=0,Q4=0,Q5=0,Q6=0,Q7=0,Q8=0,Q9=0,&
-       U4=0,U6=-V/RR,U7=0,U9=0,T4=0,T6=0,T7=0,T9=0)
-
-PAUSE
-
-A[6,2]=EVALUATE(D(U9',Q7),Q1=0,Q2=0,Q3=0,Q4=0,Q5=0,Q6=0,Q7=0,Q8=0,Q9=0,&
-       U4=0,U6=-V/RR,U7=0,U9=0,T4=0,T6=0,T7=0,T9=0)
-
-PAUSE
-
-A[6,3]=EVALUATE(D(U9',Q9),Q1=0,Q2=0,Q3=0,Q4=0,Q5=0,Q6=0,Q7=0,Q8=0,Q9=0,&
-       U4=0,U6=-V/RR,U7=0,U9=0,T4=0,T6=0,T7=0,T9=0)
-
-PAUSE
-
-A[6,4]=EVALUATE(D(U9',U4),Q1=0,Q2=0,Q3=0,Q4=0,Q5=0,Q6=0,Q7=0,Q8=0,Q9=0,&
-       U4=0,U6=-V/RR,U7=0,U9=0,T4=0,T6=0,T7=0,T9=0)
-
-PAUSE
-
-A[6,5]=EVALUATE(D(U9',U7),Q1=0,Q2=0,Q3=0,Q4=0,Q5=0,Q6=0,Q7=0,Q8=0,Q9=0,&
-       U4=0,U6=-V/RR,U7=0,U9=0,T4=0,T6=0,T7=0,T9=0)
-
-PAUSE
-
-A[6,6]=EVALUATE(D(U9',U9),Q1=0,Q2=0,Q3=0,Q4=0,Q5=0,Q6=0,Q7=0,Q8=0,Q9=0,&
-       U4=0,U6=-V/RR,U7=0,U9=0,T4=0,T6=0,T7=0,T9=0)
-
+%A[6,1]=EVALUATE(D(U9',Q4),Q1=0,Q2=0,Q3=0,Q4=0,Q5=0,Q6=0,Q7=0,Q8=0,Q9=0,&
+       %U4=0,U6=-V/RR,U7=0,U9=0,T4=0,T6=0,T7=0,T9=0)
+%
+%PAUSE
+%
+%A[6,2]=EVALUATE(D(U9',Q7),Q1=0,Q2=0,Q3=0,Q4=0,Q5=0,Q6=0,Q7=0,Q8=0,Q9=0,&
+       %U4=0,U6=-V/RR,U7=0,U9=0,T4=0,T6=0,T7=0,T9=0)
+%
+%PAUSE
+%
+%A[6,3]=EVALUATE(D(U9',Q9),Q1=0,Q2=0,Q3=0,Q4=0,Q5=0,Q6=0,Q7=0,Q8=0,Q9=0,&
+       %U4=0,U6=-V/RR,U7=0,U9=0,T4=0,T6=0,T7=0,T9=0)
+%
+%PAUSE
+%
+%A[6,4]=EVALUATE(D(U9',U4),Q1=0,Q2=0,Q3=0,Q4=0,Q5=0,Q6=0,Q7=0,Q8=0,Q9=0,&
+       %U4=0,U6=-V/RR,U7=0,U9=0,T4=0,T6=0,T7=0,T9=0)
+%
+%PAUSE
+%
+%A[6,5]=EVALUATE(D(U9',U7),Q1=0,Q2=0,Q3=0,Q4=0,Q5=0,Q6=0,Q7=0,Q8=0,Q9=0,&
+       %U4=0,U6=-V/RR,U7=0,U9=0,T4=0,T6=0,T7=0,T9=0)
+%
+%PAUSE
+%
+%A[6,6]=EVALUATE(D(U9',U9),Q1=0,Q2=0,Q3=0,Q4=0,Q5=0,Q6=0,Q7=0,Q8=0,Q9=0,&
+       %U4=0,U6=-V/RR,U7=0,U9=0,T4=0,T6=0,T7=0,T9=0)
+%
 PAUSE
 
 B[1,1]=EVALUATE(D(Q4',T4),Q1=0,Q2=0,Q3=0,Q4=0,Q5=0,Q6=0,Q7=0,Q8=0,Q9=0,&
