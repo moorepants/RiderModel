@@ -36,7 +36,7 @@ FRAMES A,B
 % F: FRONT WHEEL
 % G: RIDER UPPER BODY
 
-BODIES C,D,E,F%,G
+BODIES C,D,E,F,G
 
 % DECLARE FOUR POINTS
 % ND: REAR CONTACT POINT ON GROUND
@@ -192,26 +192,24 @@ T9    =  T_PHI_R
 % Q8:  FRONT WHEEL ROTATION ANGLE
 % Q9:  RIDER LEAN ANGLE
 
-%VARIABLES Q{9}'
-VARIABLES Q{8}'
+VARIABLES Q{9}'
 
 %---------------------------------------------------------------------%
 %         GENERALIZED SPEEDS
 %---------------------------------------------------------------------%
 
-%MOTIONVARIABLES' U{9}'
-MOTIONVARIABLES' U{8}'
+MOTIONVARIABLES' U{9}'
 
 %---------------------------------------------------------------------%
 %         MASS AND INERTIA PROPERTIES
 %---------------------------------------------------------------------%
 
-MASS C=MC,D=MD,E=ME,F=MF%,G=MG
+MASS C=MC,D=MD,E=ME,F=MF,G=MG
 INERTIA C,IC11,IC22,IC33,IC12,IC23,IC31
 INERTIA D,ID11,ID22,ID33
 INERTIA E,IE11,IE22,IE33,IE12,IE23,IE31
 INERTIA F,IF11,IF22,IF33
-%INERTIA G,IG11,IG22,IG33,IG12,IG23,IG31
+INERTIA G,IG11,IG22,IG33,IG12,IG23,IG31
 
 %---------------------------------------------------------------------%
 %         ANGULAR RELATIONSHIPS                                       %
@@ -243,7 +241,7 @@ SIMPROT(E,F,2,Q8)
 
 % RIDER LEAN
 
-%SIMPROT(C,G,COS(LAMBDA)*C1>+SIN(LAMBDA)*C3>,Q9)
+SIMPROT(C,G,COS(LAMBDA)*C1>+SIN(LAMBDA)*C3>,Q9)
 
 %---------------------------------------------------------------------%
 %         POSITION VECTORS
@@ -264,7 +262,7 @@ P_DO_FO>=D1*C1>+(RR+D1*SIN(LAMBDA)-RF+D3*SIN(LAMBDA))/COS(LAMBDA)*E3>&
 
 % REAR WHEEL CENTER TO THE UPPER BODY CENTER
 
-%P_DO_GO>=(RR+HH)*(-SIN(LAMBDA)*C1>+COS(LAMBDA)*C3>)+L5*G1>+L6*G3>
+P_DO_GO>=(RR+HH)*(-SIN(LAMBDA)*C1>+COS(LAMBDA)*C3>)+L5*G1>+L6*G3>
 
 % LOCATE THE GROUND CONTACT POINTS
 
@@ -288,7 +286,7 @@ Q5'=U5
 Q6'=U6
 Q7'=U7
 Q8'=U8
-%Q9'=U9
+Q9'=U9
 
 %---------------------------------------------------------------------%
 %         ANGULAR VELOCITIES
@@ -300,7 +298,7 @@ ANGVEL(N,C)
 ANGVEL(N,D)
 ANGVEL(N,E)
 ANGVEL(N,F)
-%ANGVEL(N,G)
+ANGVEL(N,G)
 
 %---------------------------------------------------------------------%
 %         VELOCITIES
@@ -310,7 +308,7 @@ V_CO_N>=DT(P_NO_CO>,N)
 V_DO_N>=DT(P_NO_DO>,N)
 V_EO_N>=DT(P_NO_EO>,N)
 V_FO_N>=DT(P_NO_FO>,N)
-%V_GO_N>=DT(P_NO_GO>,N)
+V_GO_N>=DT(P_NO_GO>,N)
 
 V2PTS(N,D,DO,DN)
 V2PTS(N,F,FO,FN)
@@ -354,7 +352,7 @@ ALF_E_N>=DT(W_E_N>,N)
 
 ALF_F_N>=DT(W_F_N>,N)
 
-%ALF_G_N>=DT(W_G_N>,N)
+ALF_G_N>=DT(W_G_N>,N)
 
 %---------------------------------------------------------------------%
 %         ACCELERATIONS
@@ -364,70 +362,30 @@ A_CO_N>=DT(V_CO_N>,N)
 A_DO_N>=DT(V_DO_N>,N)
 A_EO_N>=DT(V_EO_N>,N)
 A_FO_N>=DT(V_FO_N>,N)
-%A_GO_N>=DT(V_GO_N>,N)
+A_GO_N>=DT(V_GO_N>,N)
 
 %---------------------------------------------------------------------%
 %         FORCES AND TORQUES
 %---------------------------------------------------------------------%
 
-GRAVITY(G*N3>,C,D,E,F)%,G)
+GRAVITY(G*N3>,C,D,E,F,G)
 TORQUE(A/B,T4*A1>) % ROLL TORQUE
 TORQUE(C/D,T6*C2>) % REAR WHEEL TORQUE
 TORQUE(C/E,T7*C3>) % STEER TORQUE
-%TORQUE(C/G,T9*G1>) % RIDER LEAN TORQUE
+TORQUE(C/G,T9*G1>) % RIDER LEAN TORQUE
 
 %---------------------------------------------------------------------%
 %         EQUATIONS OF MOTION
 %---------------------------------------------------------------------%
 
 ZERO=FR()+FRSTAR()
-SOLVE(ZERO,U4',U6',U7')%,U9')
-
-UNITSYSTEM  KG,M,S
-
-INPUT W=1.02 M,C=0.08 M,LAMBDA=3.141592653589793/10 RAD,G=9.81 KG,&
-      V=4.6 M/S
-
-INPUT RR=0.3 M,M_R=2 KG,IRXX=0.0603 KG*M^2,IRYY=0.12 KG*M^2
-
-INPUT XB=0.3 M,ZB=-0.9 M,M_B=85 KG
-
-INPUT IBXX=9.2 KG*M^2,IBYY=11 KG*M^2,IBZZ=2.8 KG*M^2,IBXZ=2.4 KG*M^2
-
-INPUT XH=0.9 M,ZH=-0.7 M,M_H=4 KG
-
-INPUT IHXX=0.05892 KG*M^2,IHYY=0.06 KG*M^2,IHZZ=0.00708 KG*M^2
-
-INPUT IHXZ=-0.00756 KG*M^2
-
-INPUT RF=0.35 M,M_F=3 KG,IFXX=0.1405 KG*M^2,IFYY=0.28 KG*M^2
-INPUT Q1=0,Q2=0,Q3=0,Q4=0,Q5=0,Q6=0,Q7=0,Q8=0
-
-INPUT U4=0.5,U6=-4.6/0.3,U7=0
-
-INPUT TFINAL=5,INTEGSTP=0.01
-
-OUTPUT T S
-
-OUTPUT Q1 M,  Q2 M,  Q3 RAD,  Q4 RAD,  Q5 RAD,  Q6 RAD,  Q7 RAD,  Q8 RAD
-
-OUTPUT U1 M/S,U2 M/S,U3 RAD/S,U4 RAD/S,U5 RAD/S,U6 RAD/S,U7 RAD/S,U8 RAD/S
-
-CODE DYNAMICS() WhipplePlusRiderLeanDyn.m
-
-ENCODE U4',U6',U7',Q4',Q6',Q7'
-CODE ALGEBRAIC() WhipplePlusRiderLeanAlg.m
+SOLVE(ZERO,U4',U6',U7',U9')
 
 %---------------------------------------------------------------------%
 %         LINEARIZATION
 %---------------------------------------------------------------------%
 % LINEARIZES THE EQUATIONS OF MOTION ABOUT THE UPRIGHT CONFIGURATION
 % AND CONSTANT FORWARD SPEED
-
-CONSTANTS U9,Q9
-
-U9=0
-Q9=0
 
 A[1,1]=D(Q4',Q4)
 A[1,2]=D(Q4',Q7)
@@ -441,12 +399,12 @@ A[2,3]=D(Q7',Q9)
 A[2,4]=D(Q7',U4)
 A[2,5]=D(Q7',U7)
 A[2,6]=D(Q7',U9)
-%A[3,1]=D(Q9',Q4)
-%A[3,2]=D(Q9',Q7)
-%A[3,3]=D(Q9',Q9)
-%A[3,4]=D(Q9',U4)
-%A[3,5]=D(Q9',U7)
-%A[3,6]=D(Q9',U9)
+A[3,1]=D(Q9',Q4)
+A[3,2]=D(Q9',Q7)
+A[3,3]=D(Q9',Q9)
+A[3,4]=D(Q9',U4)
+A[3,5]=D(Q9',U7)
+A[3,6]=D(Q9',U9)
 A[4,1]=D(U4',Q4)
 A[4,2]=D(U4',Q7)
 A[4,3]=D(U4',Q9)
@@ -459,30 +417,31 @@ A[5,3]=D(U7',Q9)
 A[5,4]=D(U7',U4)
 A[5,5]=D(U7',U7)
 A[5,6]=D(U7',U9)
-%A[6,1]=D(U9',Q4)
-%A[6,2]=D(U9',Q7)
-%A[6,3]=D(U9',Q9)
-%A[6,4]=D(U9',U4)
-%A[6,5]=D(U9',U7)
-%A[6,6]=D(U9',U9)
+A[6,1]=D(U9',Q4)
+A[6,2]=D(U9',Q7)
+A[6,3]=D(U9',Q9)
+A[6,4]=D(U9',U4)
+A[6,5]=D(U9',U7)
+A[6,6]=D(U9',U9)
 B[1,1]=D(Q4',T4)
 B[1,2]=D(Q4',T7)
 B[1,3]=D(Q4',T9)
 B[2,1]=D(Q7',T4)
 B[2,2]=D(Q7',T7)
 B[2,3]=D(Q7',T9)
-%B[3,1]=D(Q9',T4)
-%B[3,2]=D(Q9',T7)
-%B[3,3]=D(Q9',T9)
+B[3,1]=D(Q9',T4)
+B[3,2]=D(Q9',T7)
+B[3,3]=D(Q9',T9)
 B[4,1]=D(U4',T4)
 B[4,2]=D(U4',T7)
 B[4,3]=D(U4',T9)
 B[5,1]=D(U7',T4)
 B[5,2]=D(U7',T7)
 B[5,3]=D(U7',T9)
-%B[6,1]=D(U9',T4)
-%B[6,2]=D(U9',T7)
-%B[6,3]=D(U9',T9)
+B[6,1]=D(U9',T4)
+B[6,2]=D(U9',T7)
+B[6,3]=D(U9',T9)
+
 % CALCULATE THE EIGENVALUES AND THE EIGENVECTORS OF THE SYSTEM
 % EIG WILL NOT COMPUTE BECAUSE A[3,1] IS NOT A REAL NUMBER
 
