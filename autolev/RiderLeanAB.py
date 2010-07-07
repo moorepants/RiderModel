@@ -1,3 +1,5 @@
+from numpy import zeros
+
 def RiderLeanAB(bike, v)
 '''
 Returns the A and B matrics for a bicycle with leaning rider.
@@ -19,76 +21,70 @@ BikeNames = ['BatavusBrowserInstrumented', 'BatavusBrowser',
 'BatavusCrescendoDeluxe', 'BatavusStratosDeluxe', 'BianchiPista', 'GaryFisher',
 'YellowBike', 'YellowBikeReversed']
 
-fid = open('../bikeLegParameters/' + BikeNames(bike) + 'LegPar.txt')
-fclaose(fid);
+filename = '/media/Data/Documents/School/TU
+Delft/PhysicalParameters/data/bikeLegParameters/' + BikeNames[bike] +
+'LegsPar.txt'
 
-xB=0.231223496809401
-zB=-1.283035074598082
-mB=48.816000000000003
-iBxx=2.038073562525466
-iBxz=0.002113501449812
-iBzz=1.100753962972129
-iByy=1.692108544034995
-zHinge=-1.011421527346159
-%-------------------------------+--------------------------+-------------------+-----------------
-% Quantity                      | Value                    | Units             | Description
-%-------------------------------|--------------------------|-------------------|-----------------
-C                               =  0.0;                    % UNITS               Constant
-G                               =  0.0;                    % UNITS               Constant
-HH                              =  0.0;                    % UNITS               Constant
-IBRXX                           =  0.0;                    % UNITS               Constant
-IBRXZ                           =  0.0;                    % UNITS               Constant
-IBRYY                           =  0.0;                    % UNITS               Constant
-IBRZZ                           =  0.0;                    % UNITS               Constant
-IBXX                            =  0.0;                    % UNITS               Constant
-IBXZ                            =  0.0;                    % UNITS               Constant
-IBYY                            =  0.0;                    % UNITS               Constant
-IBZZ                            =  0.0;                    % UNITS               Constant
-IFXX                            =  0.0;                    % UNITS               Constant
-IFYY                            =  0.0;                    % UNITS               Constant
-IHXX                            =  0.0;                    % UNITS               Constant
-IHXZ                            =  0.0;                    % UNITS               Constant
-IHYY                            =  0.0;                    % UNITS               Constant
-IHZZ                            =  0.0;                    % UNITS               Constant
-IRXX                            =  0.0;                    % UNITS               Constant
-IRYY                            =  0.0;                    % UNITS               Constant
-LAMBDA                          =  0.0;                    % UNITS               Constant
-M_B                             =  0.0;                    % UNITS               Constant
-M_BR                            =  0.0;                    % UNITS               Constant
-M_F                             =  0.0;                    % UNITS               Constant
-M_H                             =  0.0;                    % UNITS               Constant
-M_R                             =  0.0;                    % UNITS               Constant
-RF                              =  0.0;                    % UNITS               Constant
-RR                              =  0.0;                    % UNITS               Constant
-W                               =  0.0;                    % UNITS               Constant
-XB                              =  0.0;                    % UNITS               Constant
-XBR                             =  0.0;                    % UNITS               Constant
-XH                              =  0.0;                    % UNITS               Constant
-ZB                              =  0.0;                    % UNITS               Constant
-ZBR                             =  0.0;                    % UNITS               Constant
-ZH                              =  0.0;                    % UNITS               Constant
-Q3                              =  0.0;                    % UNITS               Constant
-Q4                              =  0.0;                    % UNITS               Constant
-Q5                              =  0.0;                    % UNITS               Constant
-Q6                              =  0.0;                    % UNITS               Constant
-Q7                              =  0.0;                    % UNITS               Constant
-Q8                              =  0.0;                    % UNITS               Constant
-Q9                              =  0.0;                    % UNITS               Constant
-U4                              =  0.0;                    % UNITS               Constant
-U6                              =  0.0;                    % UNITS               Constant
-U7                              =  0.0;                    % UNITS               Constant
-U9                              =  0.0;                    % UNITS               Constant
-%-------------------------------+--------------------------+-------------------+-----------------
+f = open(filename, 'r')
+p = {}
+# parse the text file
+for i, line in enumerate(f):
+    list1 = line[:-1].split(',')
+    p[list1[0]] = eval(list1[1])
+f.close()
 
-% Unit conversions
-Pi       = 3.141592653589793;
-DEGtoRAD = Pi/180.0;
-RADtoDEG = 180.0/Pi;
+XBR = 0.231223496809401
+ZBR = -1.283035074598082
+M_BR = 48.816000000000003
+HH = -1.011421527346159
+IBRXX = 2.038073562525466
+IBRXZ = 0.002113501449812
+IBRYY = 1.692108544034995
+IBRZZ = 1.100753962972129
 
-% Reserve space and initialize matrices
-z = zeros(3090,1);
+C =  p['c']
+G =  p['g']
+IBXX = p['IBxx']
+IBXZ = p['IBxz']
+IBYY = p['IByy']
+IBZZ = p['IBzz']
+IFXX = p['IFxx']
+IFYY = p['IFyy']
+IHXX = p['IHxx']
+IHXZ = p['IHxz']
+IHYY = p['IHyy']
+IHZZ = p['IHzz']
+IRXX = p['IRxx']
+IRYY = p['IRyy']
+LAMBDA = p['lambda']
+M_B = p['mB']
+M_F = p['mF']
+M_H = p['mH']
+M_R = p['mR']
+RF = p['rF']
+RR = p['rR']
+W = p['w']
+XB = p['xB']
+XH = p['xH']
+ZB = p['xB']
+ZH = p['xH']
 
-% Evaluate constants
+Q3 = 0.0
+Q4 = 0.0
+Q5 = 0.0
+Q6 = 0.0
+Q7 = 0.0
+Q8 = 0.0
+Q9 = 0.0
+U4 = 0.0
+U6 = 0.0
+U7 = 0.0
+U9 = 0.0
+
+# Reserve space and initialize matrices
+z = zeros((3090,));
+
+# Evaluate constants
 D1 = cos(LAMBDA)*(C+W-RR*tan(LAMBDA));
 D3 = -cos(LAMBDA)*(C-RF*tan(LAMBDA));
 ID11 = IRXX;
