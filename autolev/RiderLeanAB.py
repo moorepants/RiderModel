@@ -1,11 +1,25 @@
-function [A, B] = RiderLeanAB(bike, v)
+def RiderLeanAB(bike, v)
+'''
+Returns the A and B matrics for a bicycle with leaning rider.
 
-BikeNames = {'BatavusBrowserInstrumented', 'BatavusBrowser',
+Parameters
+----------
+bike : int
+    an integer between 0 and 7
+v : float
+    the forward velocity of the bike in meters per second
+
+Returns
+-------
+A : ndarray, shape(6, 6)
+B : ndarray, shape(6, 3)
+
+'''
+BikeNames = ['BatavusBrowserInstrumented', 'BatavusBrowser',
 'BatavusCrescendoDeluxe', 'BatavusStratosDeluxe', 'BianchiPista', 'GaryFisher',
-'YellowBike', 'YellowBikeReversed'}
+'YellowBike', 'YellowBikeReversed']
 
-fid = fopen(strcat('../bikeLegParameters/', BikeNames(bike), 'LegPar.txt'));
-p = textscan(fid, '%s,%f')
+fid = open('../bikeLegParameters/' + BikeNames(bike) + 'LegPar.txt')
 fclaose(fid);
 
 xB=0.231223496809401
