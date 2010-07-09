@@ -5,7 +5,7 @@ import numpy as np
 v = np.linspace(0., 10., num=100)
 
 for speed in v:
-    A, B, bike = RiderLeanAB(8, speed)
+    A, B, bike = RiderLeanAB(5, speed)
     w = np.linalg.eig(A)[0]
     #print "Computed the eigenvalues at", speed
     #print "Eigenvalues\n", w
