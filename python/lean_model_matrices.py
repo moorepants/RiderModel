@@ -14,12 +14,12 @@ for i, name in enumerate(data['bikes']):
     fname = ''.join(name.split())
     directory = '../data/BikeLeanAB/'
     f = open(directory + fname + 'LeanAB.txt', 'w')
-    f.write('States (x) are: [Roll,Steer,Lean,Roll Rate,Steer Rate,Lean Rate]\n\r')
-    f.write('Inputs (u) are: [Roll Torque,Steer Torque,Lean Torque]\n\r')
+    f.write('States (x) are: [Roll,Steer,Lean,Roll Rate,Steer Rate,Lean Rate]\n')
+    f.write('Inputs (u) are: [Roll Torque,Steer Torque,Lean Torque]\n')
     for speed in v:
         A, B, nothing = RiderLeanAB(i, speed)
-        f.write('A' + ' (v = ' + str(speed) + ')\n\r')
-        f.write(str(A) + '\n\r')
-        f.write('B' + ' (v = ' + str(speed) + ')\n\r')
-        f.write(str(B) + '\n\r')
+        f.write('A' + ' (v = ' + str(speed) + ')\n')
+        f.write(str(A) + '\n')
+        f.write('B' + ' (v = ' + str(speed) + ')\n')
+        f.write(str(B) + '\n')
     f.close()
