@@ -304,6 +304,7 @@ ANGVEL(N,D)
 ANGVEL(N,E)
 ANGVEL(N,F)
 ANGVEL(N,G)
+ANGVEL(N,H)
 
 %---------------------------------------------------------------------%
 %         VELOCITIES
