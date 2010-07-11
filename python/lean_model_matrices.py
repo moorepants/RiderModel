@@ -1,5 +1,6 @@
 from RiderLeanAB import RiderLeanAB
 import pickle
+from scipy.io.matlab.mio import savemat
 
 ppdir = '/media/Data/Documents/School/TU Delft/PhysicalParameters/'
 
@@ -18,6 +19,8 @@ for i, name in enumerate(data['bikes']):
     f.write('Inputs (u) are: [Roll Torque,Steer Torque,Lean Torque]\n')
     for speed in v:
         A, B, nothing = RiderLeanAB(i, speed)
+        mdict = {'A':A, 'B':B}
+        savemat(directory + 'mat/' + fname + 'LeanAB_' + str(speed) + '.mat', mdict)
         f.write('A' + ' (v = ' + str(speed) + ')\n')
         f.write(str(A) + '\n')
         f.write('B' + ' (v = ' + str(speed) + ')\n')
