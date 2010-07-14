@@ -5,7 +5,7 @@ import numpy as np
 v = np.linspace(0., 10., num=100)
 
 for speed in v:
-    A, B, bike = RiderLeanAB(5, speed)
+    A, B, bike = RiderLeanAB(8, speed)
     w = np.linalg.eig(A)[0]
     #print "Computed the eigenvalues at", speed
     #print "Eigenvalues\n", w
@@ -17,4 +17,5 @@ for speed in v:
 plt.plot(v, eigvals, 'k.')
 plt.ylim(-10,10)
 plt.title(bike)
+plt.savefig(bike + '.png')
 plt.show()
