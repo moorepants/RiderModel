@@ -1,10 +1,10 @@
 %---------------------------------------------------------------------%
 %    FILE: WhipplePlusRiderLean.AL
-%    DATE: JULY 6, 2010
+%    DATE: JULY 14, 2010
 %  AUTHOR: JASON MOORE
 % PROBLEM: GENERATES THE LINEARIZED EQUATIONS OF MOTION FOR A LEANING
 %          RIDER NO-HANDS BICYCLE MADE UP OF FIVE RIGID BODIES (I.E.
-%          THE WHIPPLE MODEL PLUS RIDER LEAN).
+%          THE WHIPPLE MODEL PLUS RIDER LEAN). LEAN ANGLE IS THE INPUT.
 %   NOTES: OUTPUTS THE A AND B MATRICES AND THE CANONICAL FORM
 %---------------------------------------------------------------------%
 %         DEFAULT SETTINGS
@@ -194,13 +194,14 @@ T9    =  T_PHI_R
 % Q8:  FRONT WHEEL ROTATION ANGLE
 % Q9:  RIDER LEAN ANGLE
 
-VARIABLES Q{9}'
+VARIABLES Q{8}'
+SPECIFIED Q9''
 
 %---------------------------------------------------------------------%
 %         GENERALIZED SPEEDS
 %---------------------------------------------------------------------%
 
-MOTIONVARIABLES' U{9}'
+MOTIONVARIABLES' U{8}'
 
 %---------------------------------------------------------------------%
 %         MASS AND INERTIA PROPERTIES
@@ -291,7 +292,7 @@ Q5'=U5
 Q6'=U6
 Q7'=U7
 Q8'=U8
-Q9'=U9
+U9=Q9'
 
 %---------------------------------------------------------------------%
 %         ANGULAR VELOCITIES
@@ -378,14 +379,14 @@ GRAVITY(G*N3>,C,D,E,F,G)
 TORQUE(A/B,T4*A1>) % ROLL TORQUE
 TORQUE(C/D,T6*C2>) % REAR WHEEL TORQUE
 TORQUE(C/E,T7*C3>) % STEER TORQUE
-TORQUE(C/G,T9*G1>) % RIDER LEAN TORQUE
+%TORQUE(C/G,T9*G1>) % RIDER LEAN TORQUE
 
 %---------------------------------------------------------------------%
 %         EQUATIONS OF MOTION
 %---------------------------------------------------------------------%
 
 ZERO=FR()+FRSTAR()
-SOLVE(ZERO,U4',U6',U7',U9')
+SOLVE(ZERO,U4',U6',U7')
 
 %---------------------------------------------------------------------%
 %         LINEARIZATION
