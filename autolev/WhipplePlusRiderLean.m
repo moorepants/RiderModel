@@ -1,10 +1,10 @@
 function WhipplePlusRiderLean
-% File  WhipplePlusRiderLean.m  created by Autolev 4.1 on Wed Jul 14 17:13:44 2010
+% File  WhipplePlusRiderLean.m  created by Autolev 4.1 on Wed Jul 14 17:50:04 2010
 
-global   C G HH IBRXX IBRXZ IBRYY IBRZZ IBXX IBXZ IBYY IBZZ IFXX IFYY IHXX IHXZ IHYY IHZZ IRXX IRYY LAMBDA M_B M_BR M_F M_H M_R RF RR V W XB XBR XH ZB ZBR ZH Q3 Q4 Q5 Q6 Q7 Q8 Q9 U4 U6 U7 U9;
+global   C G HH IBRXX IBRXZ IBRYY IBRZZ IBXX IBXZ IBYY IBZZ IFXX IFYY IHXX IHXZ IHYY IHZZ IRXX IRYY LAMBDA M_B M_BR M_F M_H M_R RF RR W XB XBR XH ZB ZBR ZH Q3 Q4 Q5 Q6 Q7 Q8 Q9 U4 U6 U7 U9;
 global   T_DELTA T_PHI T_PHI_R T_THETAR;
 global   U1 U2 U3 U5 U8 Q3p Q4p Q5p Q6p Q7p Q8p Q9p D1 D2 D3 IC11 IC12 IC22 IC23 IC31 IC33 ID11 ID22 ID33 IE11 IE12 IE22 IE23 IE31 IE33 IF11 IF22 IF33 IG11 IG12 IG22 IG23 IG31 IG33 L1 L2 L3 L4 L5 L6 MC MD ME MF MG T4 T6 T7 T9;
-global   DEGtoRAD RADtoDEG z A B M CMAT K C1 K0 K2 Encode;
+global   DEGtoRAD RADtoDEG z A B M CMAT K Encode;
 
 ReadUserInput;
 DoCalculations;
@@ -15,10 +15,10 @@ CloseOutputFilesAndTerminate;
 
 %===========================================================================
 function ReadUserInput
-global   C G HH IBRXX IBRXZ IBRYY IBRZZ IBXX IBXZ IBYY IBZZ IFXX IFYY IHXX IHXZ IHYY IHZZ IRXX IRYY LAMBDA M_B M_BR M_F M_H M_R RF RR V W XB XBR XH ZB ZBR ZH Q3 Q4 Q5 Q6 Q7 Q8 Q9 U4 U6 U7 U9;
+global   C G HH IBRXX IBRXZ IBRYY IBRZZ IBXX IBXZ IBYY IBZZ IFXX IFYY IHXX IHXZ IHYY IHZZ IRXX IRYY LAMBDA M_B M_BR M_F M_H M_R RF RR W XB XBR XH ZB ZBR ZH Q3 Q4 Q5 Q6 Q7 Q8 Q9 U4 U6 U7 U9;
 global   T_DELTA T_PHI T_PHI_R T_THETAR;
 global   U1 U2 U3 U5 U8 Q3p Q4p Q5p Q6p Q7p Q8p Q9p D1 D2 D3 IC11 IC12 IC22 IC23 IC31 IC33 ID11 ID22 ID33 IE11 IE12 IE22 IE23 IE31 IE33 IF11 IF22 IF33 IG11 IG12 IG22 IG23 IG31 IG33 L1 L2 L3 L4 L5 L6 MC MD ME MF MG T4 T6 T7 T9;
-global   DEGtoRAD RADtoDEG z A B M CMAT K C1 K0 K2 Encode;
+global   DEGtoRAD RADtoDEG z A B M CMAT K Encode;
 
 %-------------------------------+--------------------------+-------------------+-----------------
 % Quantity                      | Value                    | Units             | Description
@@ -50,7 +50,6 @@ M_H                             =  0.0;                    % UNITS              
 M_R                             =  0.0;                    % UNITS               Constant
 RF                              =  0.0;                    % UNITS               Constant
 RR                              =  0.0;                    % UNITS               Constant
-V                               =  0.0;                    % UNITS               Constant
 W                               =  0.0;                    % UNITS               Constant
 XB                              =  0.0;                    % UNITS               Constant
 XBR                             =  0.0;                    % UNITS               Constant
@@ -3009,10 +3008,10 @@ z(2943) = z(2922)*z(2932) - z(2923)*z(2931);
 
 %===========================================================================
 function DoCalculations
-global   C G HH IBRXX IBRXZ IBRYY IBRZZ IBXX IBXZ IBYY IBZZ IFXX IFYY IHXX IHXZ IHYY IHZZ IRXX IRYY LAMBDA M_B M_BR M_F M_H M_R RF RR V W XB XBR XH ZB ZBR ZH Q3 Q4 Q5 Q6 Q7 Q8 Q9 U4 U6 U7 U9;
+global   C G HH IBRXX IBRXZ IBRYY IBRZZ IBXX IBXZ IBYY IBZZ IFXX IFYY IHXX IHXZ IHYY IHZZ IRXX IRYY LAMBDA M_B M_BR M_F M_H M_R RF RR W XB XBR XH ZB ZBR ZH Q3 Q4 Q5 Q6 Q7 Q8 Q9 U4 U6 U7 U9;
 global   T_DELTA T_PHI T_PHI_R T_THETAR;
 global   U1 U2 U3 U5 U8 Q3p Q4p Q5p Q6p Q7p Q8p Q9p D1 D2 D3 IC11 IC12 IC22 IC23 IC31 IC33 ID11 ID22 ID33 IE11 IE12 IE22 IE23 IE31 IE33 IF11 IF22 IF33 IG11 IG12 IG22 IG23 IG31 IG33 L1 L2 L3 L4 L5 L6 MC MD ME MF MG T4 T6 T7 T9;
-global   DEGtoRAD RADtoDEG z A B M CMAT K C1 K0 K2 Encode;
+global   DEGtoRAD RADtoDEG z A B M CMAT K Encode;
 
 % Quantities to be specified
 T_DELTA = 0;
@@ -3053,10 +3052,10 @@ z(2918) = (z(2338)*(z(1006)*z(980)+z(1020)*z(982)-z(1016)*z(981)-z(1024)*z(983))
 
 %===========================================================================
 function Output = PrintUserOutput
-global   C G HH IBRXX IBRXZ IBRYY IBRZZ IBXX IBXZ IBYY IBZZ IFXX IFYY IHXX IHXZ IHYY IHZZ IRXX IRYY LAMBDA M_B M_BR M_F M_H M_R RF RR V W XB XBR XH ZB ZBR ZH Q3 Q4 Q5 Q6 Q7 Q8 Q9 U4 U6 U7 U9;
+global   C G HH IBRXX IBRXZ IBRYY IBRZZ IBXX IBXZ IBYY IBZZ IFXX IFYY IHXX IHXZ IHYY IHZZ IRXX IRYY LAMBDA M_B M_BR M_F M_H M_R RF RR W XB XBR XH ZB ZBR ZH Q3 Q4 Q5 Q6 Q7 Q8 Q9 U4 U6 U7 U9;
 global   T_DELTA T_PHI T_PHI_R T_THETAR;
 global   U1 U2 U3 U5 U8 Q3p Q4p Q5p Q6p Q7p Q8p Q9p D1 D2 D3 IC11 IC12 IC22 IC23 IC31 IC33 ID11 ID22 ID33 IE11 IE12 IE22 IE23 IE31 IE33 IF11 IF22 IF33 IG11 IG12 IG22 IG23 IG31 IG33 L1 L2 L3 L4 L5 L6 MC MD ME MF MG T4 T6 T7 T9;
-global   DEGtoRAD RADtoDEG z A B M CMAT K C1 K0 K2 Encode;
+global   DEGtoRAD RADtoDEG z A B M CMAT K Encode;
 
 A(1,1) = 0;
 A(1,2) = 0;
@@ -3139,42 +3138,12 @@ K(2,3) = -(z(2939)*z(2339)-z(2935)*z(2918)-z(2942)*z(2894))/z(2937);
 K(3,1) = (z(2940)*z(1669)-z(2934)*z(2904)-z(2943)*z(2876))/z(2937);
 K(3,2) = (z(2940)*z(2207)-z(2934)*z(2911)-z(2943)*z(2885))/z(2937);
 K(3,3) = (z(2940)*z(2339)-z(2934)*z(2918)-z(2943)*z(2894))/z(2937);
-C1(1,1) = -(z(2938)*z(2600)-z(2936)*z(2919)-z(2941)*z(2895))/(V*z(2937));
-C1(1,2) = -(z(2938)*z(2853)-z(2936)*z(2920)-z(2941)*z(2896))/(V*z(2937));
-C1(1,3) = -(z(2938)*z(2867)-z(2936)*z(2921)-z(2941)*z(2897))/(V*z(2937));
-C1(2,1) = (z(2939)*z(2600)-z(2935)*z(2919)-z(2942)*z(2895))/(V*z(2937));
-C1(2,2) = (z(2939)*z(2853)-z(2935)*z(2920)-z(2942)*z(2896))/(V*z(2937));
-C1(2,3) = (z(2939)*z(2867)-z(2935)*z(2921)-z(2942)*z(2897))/(V*z(2937));
-C1(3,1) = -(z(2940)*z(2600)-z(2934)*z(2919)-z(2943)*z(2895))/(V*z(2937));
-C1(3,2) = -(z(2940)*z(2853)-z(2934)*z(2920)-z(2943)*z(2896))/(V*z(2937));
-C1(3,3) = -(z(2940)*z(2867)-z(2934)*z(2921)-z(2943)*z(2897))/(V*z(2937));
-K0(1,1) = 0;
-K0(1,2) = 0;
-K0(1,3) = 0;
-K0(2,1) = 0;
-K0(2,2) = 0;
-K0(2,3) = 0;
-K0(3,1) = 0;
-K0(3,2) = 0;
-K0(3,3) = 0;
-K2(1,1) = 0;
-K2(1,2) = 0;
-K2(1,3) = 0;
-K2(2,1) = 0;
-K2(2,2) = 0;
-K2(2,3) = 0;
-K2(3,1) = 0;
-K2(3,2) = 0;
-K2(3,3) = 0;
 
 Encode(1) = 0.0;
 Encode(2) = 0.0;
 Encode(3) = 0.0;
 Encode(4) = 0.0;
 Encode(5) = 0.0;
-Encode(6) = 0.0;
-Encode(7) = 0.0;
-Encode(8) = 0.0;
 
 
 
