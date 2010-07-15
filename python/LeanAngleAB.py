@@ -109,8 +109,8 @@ def LeanAngleAB(bike, v):
     Q9pp = 0.
 
     # Reserve space and initialize matrices
-    A = zeros((6, 6))
-    B = zeros((6, 3))
+    A = zeros((4, 4))
+    B = zeros((4, 5))
     z = zeros((2740,))
 
     # Evaluate constants
