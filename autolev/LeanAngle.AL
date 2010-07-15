@@ -1,5 +1,5 @@
 %---------------------------------------------------------------------%
-%    FILE: WhipplePlusRiderLean.AL
+%    FILE: LeanAngle.AL
 %    DATE: JULY 14, 2010
 %  AUTHOR: JASON MOORE
 % PROBLEM: GENERATES THE LINEARIZED EQUATIONS OF MOTION FOR A LEANING
@@ -494,12 +494,12 @@ UNITSYSTEM  KG,M,S
 
 ENCODE A,B
 
-CODE ALGEBRAIC() WhipplePlusRiderLean.m
+CODE ALGEBRAIC() LeanAngle.m
 
 %---------------------------------------------------------------------%
 %         SAVE OUTPUT
 %---------------------------------------------------------------------%
 
-SAVE BRR_07.ALL
+SAVE LeanAngle.ALL
 
 %---------------------------------------------------------------------%
