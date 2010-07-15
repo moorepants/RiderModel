@@ -16,7 +16,7 @@ for i, name in enumerate(data['bikes']):
     directory = '../data/LeanAngleAB/'
     f = open(directory + fname + 'LeanAngleAB.txt', 'w')
     f.write('States (x) are: [Roll,Steer,Roll Rate,Steer Rate]\n')
-    f.write('Inputs (u) are: [Lean Angle, Lean Rate, Lean Accel, Roll Torque,Steer Torque]\n')
+    f.write('Inputs (u) are: [Roll Torque, Steer Torque, Lean Angle, Lean Rate, Lean Accel]\n')
     for speed in v:
         A, B, nothing = LeanAngleAB(i, speed)
         mdict = {'A':A, 'B':B}
