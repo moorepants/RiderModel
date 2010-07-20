@@ -21,3 +21,4 @@ alTmp*
 *.png
 *.zip
 *.npy
+*.*~
